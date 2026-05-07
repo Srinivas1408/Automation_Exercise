@@ -27,6 +27,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         WebElement signuplogin=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         signuplogin.click();
@@ -64,6 +65,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         WebElement signuplogin=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         signuplogin.click();
@@ -89,6 +91,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -105,6 +108,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         WebElement signuplogin=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         signuplogin.click();
@@ -132,6 +136,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         WebElement signuplogin=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         signuplogin.click();
@@ -148,6 +153,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         WebElement contact =wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Contact')]")));
         contact.click();
@@ -163,6 +169,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         WebElement testcases=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(normalize-space(),'Test Cases')]")));
         testcases.click();
@@ -174,6 +181,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //Verify home page visible
 
@@ -201,6 +209,8 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
+
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //Verify home page visible
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
@@ -222,6 +232,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
 
@@ -246,6 +257,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
 
@@ -272,6 +284,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
 
@@ -293,6 +306,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -320,6 +334,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
 
@@ -388,6 +403,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify home page
 
@@ -445,6 +461,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify home page
 
@@ -489,6 +506,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify home page
 
@@ -517,6 +535,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -541,6 +560,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -561,6 +581,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -668,6 +689,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -688,6 +710,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));  // Verify home page
 
@@ -716,6 +739,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
@@ -775,6 +799,7 @@ public class searchEngineTest extends baseTest
     {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); // verify home page
 
@@ -848,6 +873,7 @@ public class searchEngineTest extends baseTest
     public void scrollupTest() throws InterruptedException {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); // verify home page
 
@@ -876,6 +902,7 @@ public class searchEngineTest extends baseTest
     public void scrolldownTest() throws InterruptedException {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
+        get();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
         JavascriptExecutor js = (JavascriptExecutor) driver;

@@ -25,6 +25,15 @@ public class baseTest
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
+    public void get()
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("""
+           document.querySelectorAll('.adsbygoogle')
+                .forEach(el => el.remove());
+        """);
+    }
+
 
     @AfterMethod
     public void teardowm()
