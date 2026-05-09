@@ -346,9 +346,16 @@ public class POMFileTest
         setSubmitbtn();
     }
 
+    // Replace your clearCartIfPresent method with this:
     public void clearCartIfPresent()
     {
         driver.get("https://automationexercise.com/view_cart");
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         List<WebElement> deleteButtons = driver.findElements(
                 By.xpath("//a[@class='cart_quantity_delete']")
@@ -358,12 +365,14 @@ public class POMFileTest
         {
             try {
                 btn.click();
-                Thread.sleep(1000); // allow UI update
+                Thread.sleep(1000);
             } catch (Exception e) {
-                System.out.println("Cart already empty");
+                System.out.println("Could not delete item: " + e.getMessage());
             }
         }
     }
+
+
 
 
 

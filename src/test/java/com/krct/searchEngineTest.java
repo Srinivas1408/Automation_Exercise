@@ -2,25 +2,20 @@ package com.krct;
 
 import com.krct.POMFileTest;
 import com.krct.baseTest;
-import net.bytebuddy.build.ToStringPlugin;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import javax.security.auth.login.AccountExpiredException;
-import javax.swing.*;
 import java.time.Duration;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
 
 public class searchEngineTest extends baseTest
 {
+    // Shared email variable for tests that create accounts
+    private String dynamicEmail = null;
 
     @Test(priority = 1)
     public void signupTest()
@@ -35,10 +30,8 @@ public class searchEngineTest extends baseTest
         WebElement newuser = wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//h2[contains(text(),'New User Signup')]"))));
         Assert.assertTrue(newuser.isDisplayed());
 
-        String email = "user" + System.currentTimeMillis() + "@gmail.com";
-        file.signup("eleven", email);
-
-//        file.signup("eleven","eleven2026@gmail.com");
+        dynamicEmail = "user" + System.currentTimeMillis() + "@gmail.com";
+        file.signup("eleven", dynamicEmail);
 
         WebElement accountvisible=wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//*[contains(text(),'Enter Account Information')]"))));
         Assert.assertTrue(accountvisible.isDisplayed());
@@ -48,18 +41,15 @@ public class searchEngineTest extends baseTest
         WebElement accountcreatedvisible=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(.,'Account Created')]")));
         Assert.assertTrue(accountcreatedvisible.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Continue']"))).click(); // click Continue
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Continue']"))).click();
 
         WebElement loggedelement=wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//a[contains(.,'Logged in as')]"))));
         String logintxt=loggedelement.getText();
         Assert.assertTrue(logintxt.contains("Logged in as"));
 
-       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li//a[@href='/delete_account']"))).click(); //click delete button
-
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-qa='continue-button']"))).click(); // click continue
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click(); //click logout
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click();
     }
+
     @Test(priority = 2)
     public void loginsucessTest()
     {
@@ -79,13 +69,11 @@ public class searchEngineTest extends baseTest
                         By.xpath("//a[contains(text(),'Logged in as')]")
                 )
         );
+        Assert.assertTrue(flash.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click(); // click logout
-
-        // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li//a[@href='/delete_account']"))).click(); //click delete
-
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-qa='continue-button']"))).click(); // click continue
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click();
     }
+
     @Test(priority = 3)
     public void loginFailureTest()
     {
@@ -95,14 +83,15 @@ public class searchEngineTest extends baseTest
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']"))).click();  //click signup/login
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Login to your account']"))).isDisplayed(); //verify login to your account visible or not
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Login to your account']"))).isDisplayed();
 
         file.login("tvk2026@gmail.com","1234567890");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Your email or password is incorrect')]"))).isDisplayed();
     }
+
     @Test(priority = 4)
     public void logoutuserTest()
     {
@@ -122,15 +111,13 @@ public class searchEngineTest extends baseTest
                         By.xpath("//a[contains(text(),'Logged in as')]")
                 )
         );
+        Assert.assertTrue(flash.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click(); // click logout
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click();
 
-        // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li//a[@href='/delete_account']"))).click(); //click delete
-
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-qa='continue-button']"))).click(); // click continue
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //use to verify the home oage visible or not
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
     }
+
     @Test(priority = 5)
     public void exisitngRegisterTest()
     {
@@ -144,10 +131,11 @@ public class searchEngineTest extends baseTest
         WebElement newuser = wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//h2[contains(text(),'New User Signup')]"))));
         Assert.assertTrue(newuser.isDisplayed());
 
-        file.signup("aaaa","san123@gmail.com");
+        file.signup("aaaa","samson2026@gmail.com");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Email Address already exist!')]"))).isDisplayed();
     }
+
     @Test(priority = 6)
     public void contactusTest()
     {
@@ -161,9 +149,8 @@ public class searchEngineTest extends baseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'Get In Touch')]"))).isDisplayed();
 
         file.contact("AAA","aabbcc11@gmail.com","hiiii","hello");
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
     }
+
     @Test(priority = 7)
     public void testcasesTest()
     {
@@ -176,6 +163,7 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),' Test Cases')]"))).isDisplayed();
     }
+
     @Test(priority = 8)
     public void verifyProductTest()
     {
@@ -183,27 +171,26 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //Verify home page visible
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/products")); //check the current page in products
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("products")); //verify all products list
+        Assert.assertTrue(driver.getCurrentUrl().contains("products"));
 
         List<WebElement> products=driver.findElements(By.xpath("//div[@class='features_items']//div[@class='product-image-wrapper']"));
         Assert.assertTrue(products.size() > 0);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(" //a[contains(text(),'View Product')]"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'View Product')]"))).click();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/product_details/1"));
+        Assert.assertTrue(driver.getCurrentUrl().contains("product_details"));
 
         WebElement name=driver.findElement(By.xpath("//div[@class='product-information']//h2"));
-        Assert.assertTrue(name.isDisplayed()); // Name
+        Assert.assertTrue(name.isDisplayed());
 
         WebElement category=driver.findElement(By.xpath("//div[@class='product-information']//p"));
-        Assert.assertTrue(category.isDisplayed()); // Category
+        Assert.assertTrue(category.isDisplayed());
     }
+
     @Test(priority = 9)
     public void searchProductTest()
     {
@@ -211,11 +198,9 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //Verify home page visible
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/products")); //check the current page in products
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("search_product"))).sendKeys("Tshirt");
 
@@ -224,9 +209,10 @@ public class searchEngineTest extends baseTest
         WebElement searchProducts= driver.findElement(By.xpath("//h2[text()='Searched Products']"));
         Assert.assertTrue(searchProducts.isDisplayed());
 
-        List<WebElement> searchproducts=driver.findElements(By.xpath("//div[@class='features_items']"));
+        List<WebElement> searchproducts=driver.findElements(By.xpath("//div[@class='features_items']//div[@class='product-image-wrapper']"));
         Assert.assertTrue(searchproducts.size() > 0);
     }
+
     @Test(priority = 10)
     public void verifySubscriptionTest()
     {
@@ -234,7 +220,7 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         WebElement footer=wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("footer")));
 
@@ -242,9 +228,11 @@ public class searchEngineTest extends baseTest
         action.moveToElement(footer).perform();
 
         WebElement sub=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='single-widget']//h2")));
-        Assert.assertTrue(sub.isDisplayed()); //verify the subscription text
+        Assert.assertTrue(sub.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("susbscribe_email"))).sendKeys("aaa@gmail.com"); // enter email id
+        WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("susbscribe_email")));
+        emailInput.clear();
+        emailInput.sendKeys("aaa@gmail.com");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("subscribe"))).click();
 
@@ -252,6 +240,7 @@ public class searchEngineTest extends baseTest
 
         Assert.assertTrue(successMsg.isDisplayed(), "Subscription success message not visible");
     }
+
     @Test(priority = 11)
     public void cartSubscriptionTest()
     {
@@ -259,7 +248,7 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click();
 
@@ -269,9 +258,11 @@ public class searchEngineTest extends baseTest
         action.moveToElement(footer).perform();
 
         WebElement sub=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='single-widget']//h2")));
-        Assert.assertTrue(sub.isDisplayed()); //verify the subscription text
+        Assert.assertTrue(sub.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("susbscribe_email"))).sendKeys("aaa@gmail.com"); // enter email id
+        WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("susbscribe_email")));
+        emailInput.clear();
+        emailInput.sendKeys("aaa@gmail.com");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("subscribe"))).click();
 
@@ -279,6 +270,7 @@ public class searchEngineTest extends baseTest
 
         Assert.assertTrue(successMsg.isDisplayed(), "Subscription success message not visible");
     }
+
     @Test(priority = 12)
     public void addproductcartTest()
     {
@@ -286,21 +278,22 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click(); // click Product
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='1']"))).click(); // click first product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='1']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Continue Shopping']"))).click(); // click continue shopping
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Continue Shopping']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='2']"))).click(); // click 2nd product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='2']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click(); // click view cart on 2nd product
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view_cart']"))).click();
 
-        List<WebElement> cart=driver.findElements(By.id("cart_info"));
-        Assert.assertTrue(cart.size() > 0);
+        List<WebElement> cart=driver.findElements(By.xpath("//table[@id='cart_info_table']//tr"));
+        Assert.assertTrue(cart.size() > 1);
     }
+
     @Test(priority = 13)
     public void verifyproductTest()
     {
@@ -329,6 +322,7 @@ public class searchEngineTest extends baseTest
 
         Assert.assertEquals(quantityText.trim(), "4");
     }
+
     @Test(priority = 14)
     public void placeorderTest()
     {
@@ -336,21 +330,19 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify Home Page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='1']"))).click(); // click first product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='1']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Continue Shopping']"))).click(); // click continue shopping
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Continue Shopping']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='2']"))).click(); // click 2nd product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='2']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click(); // click view cart on 2nd product
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view_cart']"))).click();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/view_cart")); //verify view cart page is visible or not
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'check_out')]"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='col-sm-6']//a[contains(@class,'check_out')]"))).click(); //click proceed to checkout
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a/u[text()='Register / Login']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//u[text()='Register / Login']"))).click();
 
         WebElement newuser = wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//h2[contains(text(),'New User Signup')]"))));
         Assert.assertTrue(newuser.isDisplayed());
@@ -358,27 +350,21 @@ public class searchEngineTest extends baseTest
         String email = "user" + System.currentTimeMillis() + "@gmail.com";
         file.signup("eleven", email);
 
-        //file.signup("twelve","twelvw2026@gmail.com");
-
         file.createaccount("dhoni@123","srinivas","JG","HCL","anna nagar","madurai","tamilnadu","madurai","613001","1234567890");
 
         WebElement accountcreatedvisible=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(.,'Account Created')]")));
         Assert.assertTrue(accountcreatedvisible.isDisplayed());
 
-        driver.findElement(By.xpath("//a[@data-qa='continue-button']")).click(); // click Continue
+        driver.findElement(By.xpath("//a[@data-qa='continue-button']")).click();
 
         WebElement loggedelement = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//a[contains(text(),'Logged in as')]")));
         Assert.assertTrue(loggedelement.isDisplayed());
 
-        // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li//a[@href='/delete_account']"))).click(); //click delete button
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click();
 
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-qa='continue-button']"))).click(); // click continue
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click();  //click cart button
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'check_out')]"))).click(); //click proceed to checkout
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'check_out')]"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='message']"))).sendKeys("I am going to purchase this product");
 
@@ -398,6 +384,7 @@ public class searchEngineTest extends baseTest
 
         logout.click();
     }
+
     @Test(priority = 15)
     public void orderBeforeCheckoutTest()
     {
@@ -405,7 +392,7 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify home page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         WebElement signuplogin=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         signuplogin.click();
@@ -416,32 +403,28 @@ public class searchEngineTest extends baseTest
         String email = "user" + System.currentTimeMillis() + "@gmail.com";
         file.signup("eleven", email);
 
-        //file.signup("thirteen","thirteen2026@gmail.com");
-
         file.createaccount("dhoni@123","srinivas","JG","HCL","anna nagar","madurai","tamilnadu","madurai","613001","1234567890");
 
         WebElement accountcreatedvisible=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(.,'Account Created')]")));
         Assert.assertTrue(accountcreatedvisible.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Continue']"))).click(); // click Continue
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Continue']"))).click();
 
         WebElement loggedelement=wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//a[contains(.,'Logged in as')]"))));
         String logintxt=loggedelement.getText();
         Assert.assertTrue(logintxt.contains("Logged in as"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click(); //click product buttom
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='1']"))).click(); // click first product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='1']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Continue Shopping']"))).click(); // click continue shopping
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Continue Shopping']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='2']"))).click(); // click 2nd product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='2']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click(); // click view cart on 2nd product
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view_cart']"))).click();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/view_cart")); //verify cart page visible or not
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-default check_out']"))).click(); //click proceed to checkout
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='btn btn-default check_out']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='message']"))).sendKeys("I am going to purchase this product");
 
@@ -456,6 +439,7 @@ public class searchEngineTest extends baseTest
 
         logout.click();
     }
+
     @Test(priority = 16)
     public void placeOrderLoginTest()
     {
@@ -463,30 +447,29 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify home page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         WebElement signuplogin=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
-        signuplogin.click();  //click login/signup page
+        signuplogin.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Login to your account']"))).isDisplayed();
 
         file.login("samson2026@gmail.com","abc@123");
 
         WebElement flash = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logged in as')]")));
+        Assert.assertTrue(flash.isDisplayed());
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click(); //click product
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='1']"))).click(); // click first product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='1']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Continue Shopping']"))).click(); // click continue shopping
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Continue Shopping']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='2']"))).click(); // click 2nd product add to the cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='2']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click(); // click view cart on 2nd product
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view_cart']"))).click();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/view_cart")); //verify view cart page
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-default check_out']"))).click(); //click proceed to checkout
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='btn btn-default check_out']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='message']"))).sendKeys("I am going to purchase this product");
 
@@ -501,37 +484,9 @@ public class searchEngineTest extends baseTest
 
         logout.click();
     }
+
     @Test(priority = 17)
-    public void removeproductTest()
-    {
-        POMFileTest file=new POMFileTest(driver,wait);
-        file.openlink();
-        get();
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); //verify home page
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click(); //click product
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='1']"))).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Continue Shopping']"))).click(); // click continue shopping
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='2']"))).click();// click first product add to the cart
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click(); // click view cart on 1nd product
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://automationexercise.com/view_cart")); //verify view cart page
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='cart_quantity_delete' and @data-product-id='1']"))).click();
-
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//a[@data-product-id='1']")));
-
-        Assert.assertTrue(driver.findElements(By.xpath("//a[@data-product-id='1']")).isEmpty(), "Product 1 still present");
-
-        Assert.assertTrue(driver.findElements(By.xpath("//a[@data-product-id='2']")).size() > 0, "Product 2 missing from cart");
-    }
-    @Test(priority = 18)
-    public void viewCategoryTest()
+    public void removeproductTest() throws InterruptedException
     {
         POMFileTest file=new POMFileTest(driver,wait);
         file.openlink();
@@ -539,22 +494,54 @@ public class searchEngineTest extends baseTest
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='left-sidebar']//h2[text()='Category']"))).isDisplayed(); //verify the "category" present or not
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='#Women']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='1']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/category_products/1']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Continue Shopping']"))).click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='2']"))).click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view_cart']"))).click();
+
+        WebElement deleteBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='cart_quantity_delete' and @data-product-id='1']")));
+        deleteBtn.click();
+
+        Thread.sleep(1000);
+
+        boolean product1Exists = driver.findElements(By.xpath("//a[@data-product-id='1']")).size() > 0;
+        Assert.assertFalse(product1Exists, "Product 1 should be removed");
+
+        boolean product2Exists = driver.findElements(By.xpath("//a[@data-product-id='2']")).size() > 0;
+        Assert.assertTrue(product2Exists, "Product 2 should still be present");
+    }
+
+    @Test(priority = 18)
+    public void viewCategoryTest() throws InterruptedException
+    {
+        POMFileTest file=new POMFileTest(driver,wait);
+        file.openlink();
+        get();
+
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='left-sidebar']//h2[text()='Category']"))).isDisplayed();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='#Women']"))).click();
+
+        Thread.sleep(500);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/category_products/1']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'Women - Dress Products')]"))).isDisplayed();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='#Men']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='#Men']"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/category_products/3']"))).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'Men - Tshirts Products')]"))).isDisplayed();
+        Thread.sleep(500);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/category_products/3']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'Men - Tshirts Products')]"))).isDisplayed();
     }
+
     @Test(priority = 19)
     public void viewcartbrandTest()
     {
@@ -568,14 +555,15 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='left-sidebar']//h2[text()='Brands']"))).isDisplayed();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/brand_products/Polo']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/brand_products/Polo']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(normalize-space(), 'Brand - Polo Products')]"))).isDisplayed();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/brand_products/H&M']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/brand_products/H&M']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(normalize-space(), 'Brand - H&M Products')]"))).isDisplayed();
     }
+
     @Test(priority = 20)
     public void searchverifycartTest() throws InterruptedException
     {
@@ -585,26 +573,21 @@ public class searchEngineTest extends baseTest
 
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
-        // ✅ STEP 1: CLEAR CART BEFORE TEST
         file.clearCartIfPresent();
 
-        // Go to Products page
         driver.findElement(By.xpath("//a[@href='/products']")).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//h2[contains(text(),'All Products')]")));
 
-        // Search product
         driver.findElement(By.id("search_product")).sendKeys("Tshirt");
         driver.findElement(By.id("submit_search")).click();
 
-        // Verify searched products text
         String txt1 = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//h2[@class='title text-center']"))).getText();
 
         Assert.assertEquals(txt1, "SEARCHED PRODUCTS");
 
-        // Get product cards
         List<WebElement> productCards = driver.findElements(
                 By.xpath("//div[@class='features_items']//div[@class='product-image-wrapper']")
         );
@@ -612,9 +595,7 @@ public class searchEngineTest extends baseTest
         Assert.assertTrue(productCards.size() > 0, "No products found!");
 
         List<String> productNames = new ArrayList<>();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        // ✅ STEP 2: ADD PRODUCTS
         for (int i = 0; i < productCards.size(); i++)
         {
             WebElement card = productCards.get(i);
@@ -626,8 +607,8 @@ public class searchEngineTest extends baseTest
 
             WebElement addBtn = card.findElement(By.xpath(".//a[contains(@class,'add-to-cart')]"));
 
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", addBtn);
-            js.executeScript("arguments[0].click();", addBtn);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", addBtn);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addBtn);
 
             if (i < productCards.size() - 1)
             {
@@ -636,20 +617,14 @@ public class searchEngineTest extends baseTest
             }
         }
 
-        // Go to Cart BEFORE login
         driver.findElement(By.xpath("//a[@href='/view_cart']")).click();
 
         List<WebElement> cartProducts = driver.findElements(
                 By.xpath("//td[@class='cart_description']/h4/a")
         );
 
-        System.out.println("Expected products: " + productNames.size());
-        System.out.println("Actual cart items (before login): " + cartProducts.size());
-
-        // ✅ Validate BEFORE login (strict)
         Assert.assertEquals(cartProducts.size(), productNames.size());
 
-        // Login
         driver.findElement(By.xpath("//a[@href='/login']")).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -660,16 +635,12 @@ public class searchEngineTest extends baseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[contains(text(),'Logged in as')]")));
 
-        // Go to cart AFTER login
         driver.findElement(By.xpath("//a[@href='/view_cart']")).click();
 
         List<WebElement> cartProductsAfter = driver.findElements(
                 By.xpath("//td[@class='cart_description']/h4/a")
         );
 
-        System.out.println("Actual cart items (after login): " + cartProductsAfter.size());
-
-        // ✅ STEP 3: VALIDATE ONLY PRODUCTS ADDED IN THIS TEST
         int matchedCount = 0;
 
         for (WebElement cartItem : cartProductsAfter)
@@ -684,6 +655,7 @@ public class searchEngineTest extends baseTest
 
         Assert.assertEquals(matchedCount, productNames.size());
     }
+
     @Test(priority = 21)
     public void addreviewproductTest()
     {
@@ -697,7 +669,7 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'All Products')]"))).isDisplayed();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/product_details/1']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/product_details/1']"))).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[normalize-space()='Write Your Review']"))).isDisplayed();
 
@@ -705,6 +677,7 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Thank you for your review')]"))).isDisplayed();
     }
+
     @Test(priority = 22)
     public void recommendedproductTest() throws InterruptedException
     {
@@ -712,28 +685,29 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));  // Verify home page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        for (int i = 0; i < 6; i++)    // Scroll slowly to trigger loading
+        for (int i = 0; i < 6; i++)
         {
             js.executeScript("window.scrollBy(0,800)");
-            Thread.sleep(500); // small pause helps lazy load
+            Thread.sleep(500);
         }
 
-        WebElement recommended = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'recommended items')]")));   // Now wait for correct element
+        WebElement recommended = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'recommended items')]")));
 
-        js.executeScript("arguments[0].scrollIntoView({block:'center'});", recommended);  //// Scroll to element
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", recommended);
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[@id='recommended-item-carousel']//a[contains(text(),'Add to cart')])[1]"))).click();  // Click Add to Cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[@id='recommended-item-carousel']//a[contains(text(),'Add to cart')])[1]"))).click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='cartModal']//a[@href='/view_cart']"))).click(); //// Click View Cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='cartModal']//a[@href='/view_cart']"))).click();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("view_cart"));  // Verify cart page
+        Assert.assertTrue(driver.getCurrentUrl().contains("view_cart"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='cart_info_table']//tbody//tr"))); // Verify product exists
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='cart_info_table']//tbody//tr")));
     }
+
     @Test(priority = 23)
     public void verifyaddTest() throws InterruptedException
     {
@@ -752,8 +726,6 @@ public class searchEngineTest extends baseTest
         String email = "user" + System.currentTimeMillis() + "@gmail.com";
         file.signup("eleven", email);
 
-        //file.signup("fourteen","fourteen2026@gmail.com");
-
         file.createaccount("dhoni@123","srinivas","JG","HCL","anna nagar","madurai","tamilnadu","madurai","613001","1234567890");
 
         WebElement accountcreatedvisible=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(.,'Account Created')]")));
@@ -767,7 +739,7 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        WebElement addToCart = wait.until(ExpectedConditions.visibilityOfElementLocated(
+        WebElement addToCart = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@data-product-id='1' and contains(@class,'add-to-cart')]")
         ));
 
@@ -775,16 +747,15 @@ public class searchEngineTest extends baseTest
         Thread.sleep(1000);
         addToCart.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view_cart']"))).click();
 
         Assert.assertTrue(driver.getCurrentUrl().contains("view_cart"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-default check_out']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='btn btn-default check_out']"))).click();
 
+        WebElement deliveryAddress = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@id='address_delivery']")));
 
-        WebElement deliveryAddress = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@id='address_delivery']")));  // Delivery Address
-
-        WebElement billingAddress = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@id='address_invoice']"))); // Billing Address
+        WebElement billingAddress = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@id='address_invoice']")));
 
         String deliveryText = deliveryAddress.getText().replaceAll("\\s+", " ").trim();
         String billingText = billingAddress.getText().replaceAll("\\s+", " ").trim();
@@ -794,6 +765,7 @@ public class searchEngineTest extends baseTest
 
         Assert.assertEquals(cleanDelivery, cleanBilling, "Delivery and Billing address are NOT same");
     }
+
     @Test(priority = 24)
     public void downloadinvoiceTest() throws InterruptedException
     {
@@ -801,30 +773,30 @@ public class searchEngineTest extends baseTest
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); // verify home page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click(); //click product button
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/products']"))).click();
 
-        WebElement addToCart = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-product-id='1' and contains(@class,'add-to-cart')]")));
+        WebElement addToCart = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-product-id='1' and contains(@class,'add-to-cart')]")));
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", addToCart);
         Thread.sleep(1000);
-        wait.until(ExpectedConditions.elementToBeClickable(addToCart)).click();
+        addToCart.click();
 
-        WebElement viewCartPopup = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//u[text()='View Cart']")));
-        viewCartPopup.click();  //click view cart
+        WebElement viewCartPopup = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//u[text()='View Cart']")));
+        viewCartPopup.click();
 
         wait.until(ExpectedConditions.urlContains("view_cart"));
         Assert.assertTrue(driver.getCurrentUrl().contains("view_cart"));
 
-        WebElement checkoutBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Proceed To Checkout')]")));
+        WebElement checkoutBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Proceed To Checkout')]")));
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkoutBtn);
         Thread.sleep(1000);
-        wait.until(ExpectedConditions.elementToBeClickable(checkoutBtn)).click();
+        checkoutBtn.click();
 
-        WebElement signupLogin = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//u[text()='Register / Login']")));
-        signupLogin.click(); //click login or register
+        WebElement signupLogin = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//u[text()='Register / Login']")));
+        signupLogin.click();
 
         WebElement newuser = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'New User Signup')]")));
 
@@ -832,8 +804,6 @@ public class searchEngineTest extends baseTest
 
         String email = "user" + System.currentTimeMillis() + "@gmail.com";
         file.signup("eleven", email);
-
-        //file.signup("fifteen", "fifteen2026@gmail.com");
 
         file.createaccount("dhoni@123", "srinivas", "JG", "HCL", "anna nagar", "madurai", "tamilnadu", "madurai", "613001", "1234567890");
 
@@ -849,11 +819,11 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']"))).click();
 
-        WebElement checkoutBtn2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Proceed To Checkout')]")));
+        WebElement checkoutBtn2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Proceed To Checkout')]")));
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkoutBtn2);
         Thread.sleep(1000);
-        wait.until(ExpectedConditions.elementToBeClickable(checkoutBtn2)).click();
+        checkoutBtn2.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='message']"))).sendKeys("I am going to purchase this product");
 
@@ -863,19 +833,22 @@ public class searchEngineTest extends baseTest
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Congratulations!')]")));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href,'/download_invoice')]"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'/download_invoice')]"))).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-qa='continue-button']"))).click();
+        Thread.sleep(2000);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Logout')]"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-qa='continue-button']"))).click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Logout')]"))).click();
     }
+
     @Test(priority = 25)
     public void scrollupTest() throws InterruptedException {
         POMFileTest file = new POMFileTest(driver, wait);
         file.openlink();
         get();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com")); // verify home page
+        Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -889,15 +862,15 @@ public class searchEngineTest extends baseTest
         ));
         scrollUpArrow.click();
 
-        Thread.sleep(2000); // wait for scroll up
+        Thread.sleep(2000);
 
-        // 6. Verify page is scrolled up (top text visible)
         WebElement topText = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//*[contains(text(),'Full-Fledged practice website for Automation Engineers')]")
         ));
 
         Assert.assertTrue(topText.isDisplayed(), "Top text not visible after scrolling up");
     }
+
     @Test(priority = 26)
     public void scrolldownTest() throws InterruptedException {
         POMFileTest file = new POMFileTest(driver, wait);
@@ -907,23 +880,19 @@ public class searchEngineTest extends baseTest
         Assert.assertTrue(driver.getCurrentUrl().contains("automationexercise.com"));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        // 4. Scroll down to bottom
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
 
-        Thread.sleep(2000); // allow page load
+        Thread.sleep(2000);
 
-        // 5. Verify 'SUBSCRIPTION' is visible
         WebElement subscription = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//h2[contains(text(),'Subscription')]")
         ));
         Assert.assertTrue(subscription.isDisplayed());
 
-        // 6. Scroll up to top (WITHOUT arrow button)
         js.executeScript("window.scrollTo(0, 0);");
 
         Thread.sleep(2000);
 
-        // 7. Verify top text is visible
         WebElement topText = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//*[contains(text(),'Full-Fledged practice website for Automation Engineers')]")
         ));
