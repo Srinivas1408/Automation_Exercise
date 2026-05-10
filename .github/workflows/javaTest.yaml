@@ -1,4 +1,4 @@
-name : Run Java Test
+name: Run Java Test
 
 on:
   push:
@@ -27,15 +27,12 @@ jobs:
           server_port: 465
           secure: true
 
-          username : ${{secrets.USERNAME_EMAIL}}
-          password : ${{secrets.USERNAME_PASSWORD}}
 
-          subject : Automation Test Report
-
-          to : srinivassri1408@gmail.com
-          from : Gitbub Actions
-
-          html_body : file://target/surefire-reports/emailable-report.html
+          username: ${{secrets.USERNAME_EMAIL}}
+          password: ${{secrets.USERNAME_PASSWORD}}
 
 
-
+          subject: Automation Test Report
+          to: srinivassri1408@gmail.com
+          from: GitHub Actions
+          html_body: file://target/surefire-reports/emailable-report.html
